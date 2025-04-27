@@ -1,7 +1,9 @@
-# SearchFunction
+# Omni Search
 
-[![Pub Version](https://img.shields.io/pub/v/search_function.svg)](https://pub.dev/packages/search_function)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Pub Version](https://img.shields.io/pub/v/omni_search.svg)](https://pub.dev/packages/omni_search)
+[![Pub Points](https://img.shields.io/pub/points/omni_search)](https://pub.dev/packages/omni_search/score)
+[![Likes](https://img.shields.io/pub/likes/omni_search)](https://pub.dev/packages/omni_search/score)
+[![License](https://img.shields.io/github/license/mtconcept/omni_search)](https://github.com/mtconcept/omni_search/blob/main/LICENSE)
 
 A powerful Flutter package that implements highly efficient search functionality with hybrid local-remote capability. SearchFunction provides instant local results and seamlessly fetches remote data when needed.
 
@@ -17,13 +19,13 @@ A powerful Flutter package that implements highly efficient search functionality
 
 ## Installation
 
-Add `search_function` to your `pubspec.yaml`:
+Add `omni_search: ` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  search_function: ^1.0.0
+  omni_search: ^0.0.2
 ```
 
 Then run:
@@ -33,7 +35,7 @@ flutter pub get
 
 ## Basic Usage
 
-Here's a simple example of how to integrate SearchFunction:
+Here's a simple example of how to integrate Omni Search into your Flutter app.:
 
 ```dart
 import 'package:flutter/material.dart';

@@ -1,7 +1,11 @@
 name: omni_search
 description: "A simple search package that help you search locally first and when no result is found it search online "
-version: 0.0.2
-homepage:
+version: 0.0.2+1
+license: MIT
+homepage: https://github.com/Mtconcept/omni_search
+repository: https://github.com/mtconcept/omni_search
+issue_tracker: https://github.com/mtconcept/omni_search/issues
+
 
 environment:
   sdk: ^3.6.0
