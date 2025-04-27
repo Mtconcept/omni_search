@@ -1,6 +1,6 @@
 name: omni_search
 description: "A simple search package that help you search locally first and when no result is found it search online "
-version: 0.0.1
+version: 0.0.2
 homepage:
 
 environment:
