@@ -50,6 +50,14 @@ class SearchFunction<T> {
         _matchFunction = matchFunction,
         _debounceDuration = debounceDuration {
     _allData = List.from(_localData);
+
+    // Always emit an initial empty result to make the stream active
+    _searchResultsController.add(SearchResult<T>(
+      items: [],
+      isLoading: false,
+      query: '',
+      source: SearchSource.local,
+    ));
   }
 
   /// Search function that combines instant local and debounced remote search
@@ -77,9 +85,11 @@ class SearchFunction<T> {
       return;
     }
 
-    // Only if local search returned no results, schedule remote search
-    _debounceTimer =
-        Timer(_debounceDuration, () => _performRemoteSearch(query));
+    // Only if local search returned no results and query isn't empty, schedule remote search
+    if (query.isNotEmpty) {
+      _debounceTimer =
+          Timer(_debounceDuration, () => _performRemoteSearch(query));
+    }
   }
 
   /// Perform remote search operation
@@ -162,12 +172,25 @@ class SearchFunction<T> {
       }
     }
     _updateAllData();
+
+    // Re-emit results for current query if any
+    if (_currentQuery.isNotEmpty) {
+      search(_currentQuery);
+    }
   }
 
   /// Clear local data cache
   void clearLocalData() {
     _localData.clear();
     _updateAllData();
+
+    // Re-emit empty results
+    _searchResultsController.add(SearchResult<T>(
+      items: [],
+      isLoading: false,
+      query: _currentQuery,
+      source: SearchSource.local,
+    ));
   }
 
   /// Force a remote search even if local results exist

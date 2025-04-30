@@ -28,6 +28,9 @@ class SearchFunctionWidget<T> extends StatefulWidget {
   /// Whether to show refresh button to force remote search
   final bool showRefreshButton;
 
+  /// Whether to show local list on initial load before any search is performed
+  final bool initialShowLocalList;
+
   const SearchFunctionWidget({
     super.key,
     required this.searchFunction,
@@ -38,6 +41,7 @@ class SearchFunctionWidget<T> extends StatefulWidget {
     this.hintText,
     this.inputDecoration,
     this.showRefreshButton = true,
+    this.initialShowLocalList = false,
   });
 
   @override
@@ -51,8 +55,13 @@ class _SearchFunctionWidgetState<T> extends State<SearchFunctionWidget<T>> {
   @override
   void initState() {
     super.initState();
-    // Trigger empty search to initialize
-    widget.searchFunction.search('');
+    // Always trigger empty search to initialize if initialShowLocalList is true
+    if (widget.initialShowLocalList) {
+      // Use a small delay to ensure the stream is set up before data is pushed
+      Future.microtask(() {
+        widget.searchFunction.search('');
+      });
+    }
   }
 
   @override
@@ -109,7 +118,8 @@ class _SearchFunctionWidgetState<T> extends State<SearchFunctionWidget<T>> {
             stream: widget.searchFunction.resultsStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const SizedBox.shrink(); // No loading indicator on init
+                // Show empty container if no data
+                return const Center(child: Text('Ready to search'));
               }
 
               final result = snapshot.data!;
@@ -127,9 +137,8 @@ class _SearchFunctionWidgetState<T> extends State<SearchFunctionWidget<T>> {
                     : Center(child: Text('Error: ${result.error}'));
               }
 
-              // Show empty state
+              // Show empty state - only when user has searched something
               if (result.items.isEmpty && _searchController.text.isNotEmpty) {
-                // Only show empty widget if user has searched something
                 return widget.emptyResultWidget ??
                     Center(
                       child: Column(
@@ -151,6 +160,7 @@ class _SearchFunctionWidgetState<T> extends State<SearchFunctionWidget<T>> {
                       ),
                     );
               }
+
               // Show results
               return ListView.builder(
                 itemCount: result.items.length,

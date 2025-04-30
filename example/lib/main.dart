@@ -255,6 +255,7 @@ class _SearchDemoState extends State<SearchDemo> {
           Expanded(
             child: SearchFunctionWidget<Product>(
               searchFunction: _searchFunction,
+              initialShowLocalList: true,
               hintText: 'Search products instantly...',
               showRefreshButton: true,
               itemBuilder: (context, product) {
